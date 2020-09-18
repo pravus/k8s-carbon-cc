@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: www-at-jhord
+spec:
+  selector:
+    app: www-at-jhord
+  ports:
+  - port: 80
+    targetPort: 8000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: www-at-jhord
+spec:
+  selector:
+    matchLabels:
+      app: www-at-jhord
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: www-at-jhord
+    spec:
+      containers:
+      - name: www-at-jhord
+        image: registry.digitalocean.com/registry-carbon-cc/www-at-jhord:v0.0.3
+        ports:
+        - containerPort: 8000

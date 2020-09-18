@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: www-carbon-cc
+spec:
+  selector:
+    app: www-carbon-cc
+  ports:
+  - port: 80
+    targetPort: 8000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: www-carbon-cc
+spec:
+  selector:
+    matchLabels:
+      app: www-carbon-cc
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: www-carbon-cc
+    spec:
+      containers:
+      - name: www
+        image: registry.digitalocean.com/registry-carbon-cc/www-carbon-cc:v0.0.2
+        ports:
+        - containerPort: 8000

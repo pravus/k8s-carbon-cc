@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: www
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    service.beta.kubernetes.io/do-loadbalancer-hostname: "www.carbon.cc"
+    service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-port: "80"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-path: "/healthz"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-check-interval-seconds: "3"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-response-timeout-seconds: "5"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-unhealthy-threshold: "3"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-healthy-threshold: "5"
+spec:
+  tls:
+  - hosts:
+    - www.carbon.cc
+    secretName: letsencrypt-secret-prod
+  rules:
+  - host: "www.carbon.cc"
+    http:
+      paths:
+      - path: /@jhord(/|$)(.*)
+        pathType: Prefix
+        backend:
+          serviceName: www-at-jhord
+          servicePort: 80
+      - path: /()(.*)
+        pathType: Prefix
+        backend:
+          serviceName: www-carbon-cc
+          servicePort: 80
