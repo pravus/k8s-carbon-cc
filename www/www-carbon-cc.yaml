@@ -27,6 +27,6 @@ spec:
     spec:
       containers:
       - name: www
-        image: registry.digitalocean.com/registry-carbon-cc/www-carbon-cc:v0.0.2
+        image: registry.digitalocean.com/registry-carbon-cc/www-carbon-cc:v0.0.7
         ports:
         - containerPort: 8000
