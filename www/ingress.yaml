@@ -3,7 +3,8 @@ kind: Ingress
 metadata:
   name: www
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     service.beta.kubernetes.io/do-loadbalancer-hostname: "www.carbon.cc"
     service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
     service.beta.kubernetes.io/do-loadbalancer-healthcheck-port: "80"
