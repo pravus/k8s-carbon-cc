@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: www-at-jhord
+  name: www-at-jhord-http
 spec:
   selector:
-    app: www-at-jhord
+    app: www-at-jhord-http
   ports:
   - port: 80
     targetPort: 8000
@@ -14,19 +14,51 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: www-at-jhord
+  name: www-at-jhord-http
 spec:
   selector:
     matchLabels:
-      app: www-at-jhord
+      app: www-at-jhord-http
   replicas: 2
   template:
     metadata:
       labels:
-        app: www-at-jhord
+        app: www-at-jhord-http
     spec:
       containers:
-      - name: www-at-jhord
-        image: registry.digitalocean.com/registry-carbon-cc/www-at-jhord:v0.0.6
+      - name: www-at-jhord-http
+        image: registry.digitalocean.com/registry-carbon-cc/www-at-jhord-http:v0.0.9
         ports:
         - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: www-at-jhord-grpc
+spec:
+  selector:
+    app: www-at-jhord-grpc
+  ports:
+  - port: 5000
+    targetPort: 5000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: www-at-jhord-grpc
+spec:
+  selector:
+    matchLabels:
+      app: www-at-jhord-grpc
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: www-at-jhord-grpc
+    spec:
+      containers:
+      - name: www-at-jhord-grpc
+        image: registry.digitalocean.com/registry-carbon-cc/www-at-jhord-grpc:v0.0.9
+        ports:
+        - containerPort: 5000

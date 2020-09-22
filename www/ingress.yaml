@@ -26,7 +26,7 @@ spec:
       - path: /@jhord(/|$)(.*)
         pathType: Prefix
         backend:
-          serviceName: www-at-jhord
+          serviceName: www-at-jhord-http
           servicePort: 80
       - path: /()(.*)
         pathType: Prefix
