@@ -15,10 +15,6 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-healthcheck-unhealthy-threshold: "3"
     service.beta.kubernetes.io/do-loadbalancer-healthcheck-healthy-threshold: "5"
 spec:
-  tls:
-  - hosts:
-    - www.carbon.cc
-    secretName: letsencrypt-secret-prod
   rules:
   - host: "www.carbon.cc"
     http:

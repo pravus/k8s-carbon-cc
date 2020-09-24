@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: www-at-jhord-http
-        image: registry.digitalocean.com/registry-carbon-cc/www-at-jhord-http:v0.0.15
+        image: registry.digitalocean.com/registry-carbon-cc/www-at-jhord-http:v0.0.17
         ports:
         - containerPort: 8000
 ---
@@ -59,6 +59,6 @@ spec:
     spec:
       containers:
       - name: www-at-jhord-grpc
-        image: registry.digitalocean.com/registry-carbon-cc/www-at-jhord-grpc:v0.0.15
+        image: registry.digitalocean.com/registry-carbon-cc/www-at-jhord-grpc:v0.0.17
         ports:
         - containerPort: 5000
