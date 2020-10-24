@@ -24,6 +24,11 @@ spec:
         backend:
           serviceName: www-at-jhord-http
           servicePort: 80
+      - path: /_util(/|$)(.*)
+        pathType: Prefix
+        backend:
+          serviceName: www-util
+          servicePort: 80
       - path: /()(.*)
         pathType: Prefix
         backend:
