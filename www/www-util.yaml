@@ -19,7 +19,7 @@ spec:
   selector:
     matchLabels:
       app: www-util
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -27,6 +27,12 @@ spec:
     spec:
       containers:
       - name: www-util
-        image: registry.digitalocean.com/registry-carbon-cc/www-util:v0.0.3
+        image: registry.digitalocean.com/registry-carbon-cc/www-util:v0.0.4
+        env:
+        - name: NODES_AUTHORIZATION
+          valueFrom:
+            secretKeyRef:
+              name: www-util
+              key: nodes_authorization
         ports:
         - containerPort: 8000
