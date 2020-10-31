@@ -19,7 +19,7 @@ spec:
   selector:
     matchLabels:
       app: www-util
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -27,12 +27,55 @@ spec:
     spec:
       containers:
       - name: www-util
-        image: registry.digitalocean.com/registry-carbon-cc/www-util:v0.0.4
+        image: registry.digitalocean.com/registry-carbon-cc/www-util:v0.0.8
         env:
         - name: NODES_AUTHORIZATION
           valueFrom:
             secretKeyRef:
               name: www-util
               key: nodes_authorization
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-nodes
+              key: redis_requirepass
         ports:
         - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-nodes
+spec:
+  selector:
+    app: redis-nodes
+  ports:
+  - port: 6379
+    targetPort: 6379
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-nodes
+spec:
+  selector:
+    matchLabels:
+      app: redis-nodes
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis-nodes
+    spec:
+      containers:
+      - name: redis-nodes
+        image: registry.digitalocean.com/registry-carbon-cc/redis:v0.0.0
+        env:
+        - name: REDIS_REQUIREPASS
+          valueFrom:
+            secretKeyRef:
+              name: redis-nodes
+              key: redis_requirepass
+        ports:
+        - containerPort: 6379
